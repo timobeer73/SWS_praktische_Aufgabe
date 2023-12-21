@@ -35,4 +35,4 @@ if __name__ == '__main__':
         if args.verbose:
               print(f'[{currentTime}] Solved in: {round((time() - startingTime), 2)} seconds')
     else:
-        print(f'[{currentTime}] Decryption failed')
+        print(f'[{currentTime}] Decryption failed!')
