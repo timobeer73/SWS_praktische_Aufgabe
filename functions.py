@@ -310,9 +310,8 @@ def getBaseVectors(args: Namespace, matrix: np.ndarray, freeVariables: List[int]
 
     # Save the content of all columns with the index specified in the freeVariables variable.
     baseVectors = []
-    matrix = matrix.T
     for variableIndex in reversed(freeVariables):
-        baseVectors.append(matrix[:][variableIndex])
+        baseVectors.append(matrix[:, variableIndex])
 
     return baseVectors
 
@@ -369,9 +368,6 @@ def verifyResult(args: Namespace, publicKey: List[str], baseVectors: List[np.nda
     result = calculateCipherText(args, publicKey, np.array(baseVectors))
     
     # Match the cipher text solution with the cipher text from the *.txt file.
-    isCorrect = True
-    for column in range(0, result.shape[1]):
-        if int(result[0][column]) != int(cipherText[column]):
-            isCorrect = False
+    isCorrect = np.array_equal(result[0].astype(int), np.array(cipherText).astype(int))
             
     return isCorrect
