@@ -3,6 +3,7 @@ from time import time
 from datetime import datetime
 from pipeline import executePipeline
 from argparse import ArgumentParser, Namespace
+from colοrama import Fore
 
 
 def setupArgumentParser() -> Namespace:
@@ -31,8 +32,8 @@ if __name__ == '__main__':
         
     currentTime = datetime.now().strftime("%H:%M:%S")  
     if isCorrect:
-        print(f'[{currentTime}] Successful! Plain text solution: {np.array(baseVectors, dtype=np.uint8)}')
+        print(f'[{currentTime}] ' + Fore.GREEN + 'Successful! ' + Fore.RESET + f'Plain text solution: {np.array(baseVectors, dtype=np.uint8)}')
         if args.verbose:
               print(f'[{currentTime}] Solved in: {round((time() - startingTime), 2)} seconds')
     else:
-        print(f'[{currentTime}] Decryption failed')
+        print(f'[{currentTime}] '  + Fore.RED + 'Decryption failed!' + Fore.RESET)
