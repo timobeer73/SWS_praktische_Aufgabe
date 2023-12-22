@@ -4,6 +4,7 @@ from argparse import Namespace
 from math import pow as mathPow
 from typing import List, Tuple
 from multiprocessing import Pool, cpu_count
+from tqdm import tqdm
 
 
 def multiprocessingWrapper(args: Tuple) -> np.ndarray:
@@ -203,7 +204,7 @@ def gaussianElimination(args: Namespace, matrix: np.ndarray) -> np.ndarray:
     
     solvedMatrix = np.zeros(shape=[0, matrix.shape[1]], 
                             dtype=np.bool_)
-    for columnIndex in range(0, matrix.shape[1]):
+    for columnIndex in tqdm(range(matrix.shape[1]), desc="Verarbeitung", unit="Spalten", dynamic_ncols=True):
         # Move all rows with a True/one in the nth column to the top of the matrix.
         matrix = np.flipud(matrix[matrix[:, columnIndex].argsort()])
         if matrix[0][columnIndex]:
