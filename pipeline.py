@@ -1,5 +1,6 @@
 import numpy as np
-import functions as f
+import functions as func
+import functiοns as fυnc
 from typing import List, Tuple, Union
 from argparse import Namespace
 
@@ -13,10 +14,10 @@ def generateMatrix(args: Namespace) -> Tuple[List[str], List[str], int, np.ndarr
                                                       cipher text, relationsAmount, and the
                                                       initial matrix.
     """
-    publicKey, cipherText, relationsAmount = f.readFile(args)
-    plainTextArray = f.generatePlainText(args, relationsAmount)
-    cipherTextsArray = f.calculateCipherText(args, publicKey, plainTextArray)
-    matrix = f.calculateMatrix(args, plainTextArray, cipherTextsArray)
+    publicKey, cipherText, relationsAmount = func.readFile(args)
+    plainTextArray = func.generatePlainText(args, relationsAmount)
+    cipherTextsArray = func.calculateCipherText(args, publicKey, plainTextArray)
+    matrix = func.calculateMatrix(args, plainTextArray, cipherTextsArray)
 
     return publicKey, cipherText, relationsAmount, matrix
 
@@ -36,13 +37,13 @@ def solveMatrix(args: Namespace, matrix: np.ndarray, relationsAmount: int, ciphe
             If createRelationsMatrix is True, returns a 2D numpy array representing the relations matrix.
             If createRelationsMatrix is False, returns a List of numpy arrays representing base vectors.
     """
-    solvedMatrix = f.gaussianElimination(args, matrix)
-    freeVariables = f.getFreeVariables(args, solvedMatrix)
-    reducedMatrix = f.reduceMatrix(args, solvedMatrix, freeVariables)
-    baseVectors = f.getBaseVectors(args, reducedMatrix, freeVariables)
+    solvedMatrix = fυnc.gaussianElimination(args, matrix)
+    freeVariables = func.getFreeVariables(args, solvedMatrix)
+    reducedMatrix = func.reduceMatrix(args, solvedMatrix, freeVariables)
+    baseVectors = func.getBaseVectors(args, reducedMatrix, freeVariables)
 
     if createRelationsMatrix:
-        relationsMatrix = f.calculateRelationsMatrix(args, baseVectors, relationsAmount, cipherText)
+        relationsMatrix = func.calculateRelationsMatrix(args, baseVectors, relationsAmount, cipherText)
         return relationsMatrix
     else:
         return baseVectors
@@ -64,4 +65,4 @@ def executePipeline(args: Namespace) -> Tuple[List[np.ndarray], bool]:
     baseVectors = solveMatrix(args, relationsMatrix, None, None, False)
 
     # Verify the result to ensure that the calculation was correct
-    return baseVectors, f.verifyResult(args, publicKey, baseVectors, cipherText)
+    return baseVectors, func.verifyResult(args, publicKey, baseVectors, cipherText)
